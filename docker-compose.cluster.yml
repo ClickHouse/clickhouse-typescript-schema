@@ -8,7 +8,7 @@ services:
         soft: 262144
         hard: 262144
     hostname: clickhouse1
-    container_name: clickhouse-js-clickhouse-server-node-1
+    container_name: clickhouse-ts-schema-clickhouse-server-node-1
     ports:
       - '8124:8123'
       - '9000:9000'
@@ -25,7 +25,7 @@ services:
         soft: 262144
         hard: 262144
     hostname: clickhouse2
-    container_name: clickhouse-js-clickhouse-server-node-2
+    container_name: clickhouse-ts-schema-clickhouse-server-node-2
     ports:
       - '8125:8123'
       - '9001:9000'
@@ -43,4 +43,4 @@ services:
       - '8123:8123'
     volumes:
       - './.docker/nginx/local.conf:/etc/nginx/conf.d/local.conf'
-    container_name: clickhouse-js-nginx
+    container_name: clickhouse-ts-schema-nginx
