@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "es2020",
+    "module": "NodeNext",
+    "moduleResolution": "NodeNext",
+    "declaration": true,
+    "pretty": true,
+    "noEmitOnError": true,
+    "strict": true,
+    "resolveJsonModule": true,
+    "removeComments": false,
+    "sourceMap": true,
+    "noUnusedLocals": true,
+    "noFallthroughCasesInSwitch": true,
+    "useDefineForClassFields": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": false,
+    "esModuleInterop": true,
+    "importHelpers": false,
+    "outDir": "out",
+    "lib": ["esnext", "dom"],
+    "types": ["node"],
+    "baseUrl": "./"
+  },
+  "exclude": ["node_modules"],
+  "include": ["./src/**/*.ts", "./examples/**/*.ts"]
+}

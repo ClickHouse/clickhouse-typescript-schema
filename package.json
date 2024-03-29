@@ -1,0 +1,77 @@
+{
+  "name": "@clickhouse/schema",
+  "description": "ClickHouse DB TypeScript schema definition",
+  "homepage": "https://clickhouse.com",
+  "version": "0.0.0",
+  "license": "Apache-2.0",
+  "keywords": [
+    "clickhouse",
+    "database",
+    "db",
+    "sql",
+    "schema",
+    "typescript",
+    "typings",
+    "infer",
+    "types",
+    "query",
+    "querybuilder",
+    "builder"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ClickHouse/clickhouse-typescript-schema"
+  },
+  "private": false,
+  "engines": {
+    "node": ">=16"
+  },
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "typecheck": "tsc --project tsconfig.json --noEmit",
+    "lint": "eslint . --ext .ts",
+    "lint:fix": "eslint --fix . --ext .ts",
+    "prepare": "husky"
+  },
+  "dependencies": {
+    "@clickhouse/client-common": "^0.3.1"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^8.4.1",
+    "@types/node": "^20.11.30",
+    "@types/uuid": "^9.0.8",
+    "@typescript-eslint/eslint-plugin": "^7.3.1",
+    "@typescript-eslint/parser": "^7.3.1",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-expect-type": "^0.3.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.2",
+    "prettier": "3.2.5",
+    "ts-loader": "^9.5.1",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.4.3",
+    "uuid": "^9.0.1"
+  },
+  "files": [
+    "dist"
+  ],
+  "lint-staged": {
+    "*.ts": [
+      "prettier --write",
+      "npm run lint:fix"
+    ],
+    "*.json": [
+      "prettier --write"
+    ],
+    "*.yml": [
+      "prettier --write"
+    ],
+    "*.md": [
+      "prettier --write"
+    ]
+  }
+}
