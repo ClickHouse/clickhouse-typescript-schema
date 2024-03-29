@@ -1,0 +1,1 @@
+# clickhouse-typescript-schema
