@@ -3,7 +3,7 @@
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
     "sourceType": "module",
-    "project": ["./tsconfig.json"]
+    "project": ["./tsconfig.dev.json"]
   },
   "env": {
     "node": true
@@ -21,8 +21,9 @@
     "@typescript-eslint/no-floating-promises": "error",
     "eqeqeq": "error",
     "no-console": "error",
+    "@typescript-eslint/consistent-type-imports": "warn",
     "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/consistent-type-imports": "warn"
+    "@typescript-eslint/no-namespace": "off"
   },
   "overrides": [
     {

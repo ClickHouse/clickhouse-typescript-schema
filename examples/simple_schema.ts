@@ -1,13 +1,12 @@
-import * as ch from '../src'
-import type { Infer } from '../src'
-import { createSchema } from '../src'
+import { ch } from '@clickhouse/schema'
 
 void (async () => {
   enum UserRole {
     User = 'User',
     Admin = 'Admin',
   }
-  const userSchema = createSchema({
+
+  const userSchema = ch.createSchema({
     id: ch.UInt64,
     f64: ch.Float64,
     name: ch.String,
@@ -18,7 +17,7 @@ void (async () => {
     registeredAt: ch.DateTime64(3, 'Europe/Amsterdam'),
   })
 
-  type Data = Infer<typeof userSchema.shape>
+  type Data = ch.Infer<typeof userSchema.shape>
 
   const usersTable = new ch.Table({
     name: 'users',

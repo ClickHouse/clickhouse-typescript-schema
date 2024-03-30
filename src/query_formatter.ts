@@ -1,6 +1,6 @@
 import type { NonEmptyArray, Shape } from './common'
-import type { CreateTableOptions, TableOptions } from './index'
 import type { WhereExpr } from './where'
+import type { CreateTableOptions, TableOptions } from './table'
 
 export type CreateTableFormatterOptions<S extends Shape> = TableOptions<S> &
   CreateTableOptions<S> & {
