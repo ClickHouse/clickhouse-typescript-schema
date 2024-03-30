@@ -1,4 +1,4 @@
-import { ch } from '../src'
+import { ch } from '@clickhouse/schema'
 
 void (async () => {
   enum UserRole {

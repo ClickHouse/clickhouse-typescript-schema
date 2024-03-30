@@ -9,7 +9,8 @@
     "outDir": "out",
     "baseUrl": "./",
     "paths": {
-      "@test/*": ["__tests__/*"]
+      "@test/*": ["__tests__/*"],
+      "@clickhouse/schema": ["src/index.ts"]
     }
   },
   "ts-node": {
