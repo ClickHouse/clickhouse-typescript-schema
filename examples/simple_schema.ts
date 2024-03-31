@@ -1,4 +1,6 @@
 import { ch } from '@clickhouse/schema'
+import Eq = ch.Eq
+import And = ch.And
 
 void (async () => {
   enum UserRole {
@@ -7,14 +9,19 @@ void (async () => {
   }
 
   const userSchema = ch.createSchema({
-    id: ch.UInt64,
+    id: ch.UInt32,
     f64: ch.Float64,
     name: ch.String,
-    maybeNullable: ch.Array(ch.Nullable(ch.String)),
-    externalIds: ch.Array(ch.Array(ch.UInt64)),
-    settings: ch.Map(ch.String, ch.String),
+    tuple3: ch.Tuple(ch.UInt32, ch.String, ch.Array(ch.String)),
+    balance: ch.Decimal({
+      precision: 10,
+      scale: 4,
+    }),
+    assignments: ch.Array(ch.Nullable(ch.String)),
+    arrays_of_int64: ch.Array(ch.Array(ch.UInt64)),
+    settings: ch.Map(ch.String, ch.UInt32),
     role: ch.Enum(UserRole),
-    registeredAt: ch.DateTime64(3, 'Europe/Amsterdam'),
+    registered_at: ch.DateTime64(3, 'Europe/Amsterdam'),
   })
 
   type Data = ch.Infer<typeof userSchema.shape>
@@ -73,8 +80,9 @@ void (async () => {
   console.log('Generated table Select examples\n', line)
   console.log(
     usersTable.select({
-      columns: ['id', 'name', 'registeredAt'], // or omit to select *
+      columns: ['id', 'name', 'registered_at'], // or omit to select *
       order_by: [['name', 'DESC']],
+      where: And(Eq('role', UserRole.Admin), Eq('id', 42)),
     }),
   )
 })()

@@ -22,3 +22,20 @@ export type NonNegative<N extends number> = number extends N
   : `${N}` extends `-${string}`
     ? never
     : N
+
+// Adjusted from https://stackoverflow.com/a/39495173/4575540
+// See proposal for built-in ranges: https://github.com/microsoft/TypeScript/issues/54925
+type Enumerate<
+  N extends number,
+  Acc extends number[] = [],
+> = Acc['length'] extends N
+  ? Acc[number]
+  : Enumerate<N, [...Acc, Acc['length']]>
+
+export type IntRange<From extends number, To extends number> = Exclude<
+  Enumerate<To>,
+  Enumerate<From>
+>
+
+export type DecimalPrecision = IntRange<1, 77>
+export type DecimalScale = IntRange<0, 77>

@@ -4,6 +4,7 @@ import * as types from './types'
 import * as table from './table'
 import * as engines from './engines'
 import * as where from './where'
+import * as create from './create_table'
 
 export namespace ch {
   export type Infer<S extends common.Shape> = common.Infer<S>
@@ -38,6 +39,7 @@ export namespace ch {
   export const UInt64 = types.UInt64
   export const Float32 = types.Float32
   export const Float64 = types.Float64
+  export const Decimal = types.Decimal
   export const String = types.String
   export const FixedString = types.FixedString
   export const UUID = types.UUID
@@ -50,10 +52,14 @@ export namespace ch {
   export const LowCardinality = types.LowCardinality
   export const Nullable = types.Nullable
   export const Array = types.Array
+  export const Tuple = types.Tuple
   export const Enum = types.Enum
   export const Map = types.Map
 
   export const Eq = where.Eq
   export const And = where.And
   export const Or = where.Or
+
+  export const CreateTable = create.CreateTable
+  export const CreateOrReplaceTable = create.CreateOrReplaceTable
 }

@@ -2,7 +2,7 @@
 
 /*
 TODO:
-  JSON (experimental)
+  JSON (experimental) - maybe not, it is deprecated?
   AggregateFunction
   SimpleAggregateFunction
   Nested
@@ -17,6 +17,8 @@ TODO:
     - currently disabled due to precision loss when using JS numbers in runtime
 */
 
+import type { DecimalPrecision, DecimalScale, NonEmptyArray } from './common'
+
 type Int = UInt8 | UInt16 | UInt32 | UInt64 | UInt128 | UInt256
 type UInt = Int8 | Int16 | Int32 | Int64 | Int128 | Int256
 type Float = Float32 | Float64
@@ -30,7 +32,7 @@ export type Type =
   | Array<any>
   | Nullable<any>
   | Map<any, any>
-  // | Decimal
+  | Decimal
   | UUID
   | Enum<any>
   | LowCardinality<any>
@@ -40,6 +42,7 @@ export type Type =
   | DateTime64
   | IPv4
   | IPv6
+  | Tuple<any>
 
 export interface UInt8 {
   underlying: number
@@ -225,38 +228,39 @@ export interface Decimal {
   type: 'Decimal'
   underlying: number
 }
-export const Decimal = ({
+// TODO: restrict Scale to be less than or equal to Precision
+export const Decimal = <
+  Precision extends DecimalPrecision,
+  Scale extends DecimalScale, // IntRange<0, Precision> is not enough; Scale could equal Precision
+>({
   precision,
   scale,
 }: {
-  precision: number
-  scale: number
+  precision: Precision
+  scale: Scale
 }) =>
   ({
     type: 'Decimal',
     toString(): string {
-      if (scale < 0) {
+      if (scale < 0 || scale > precision) {
         throw new Error(
           `Invalid Decimal scale. Valid range: [ 0 : P ], got ${scale}`,
         )
       }
-      if (precision > 0 && precision < 10) {
+      if (precision >= 1 && precision <= 9) {
         return `Decimal32(${scale})`
       }
-      if (precision > 10 && precision < 19) {
+      if (precision >= 10 && precision <= 18) {
         return `Decimal64(${scale})`
       }
-      if (precision > 19 && precision < 39) {
+      if (precision >= 19 && precision <= 38) {
         return `Decimal128(${scale})`
       }
-      if (precision > 19 && precision < 39) {
-        return `Decimal128(${scale})`
-      }
-      if (precision > 39 && precision < 77) {
+      if (precision >= 39 && precision <= 76) {
         return `Decimal256(${scale})`
       }
       throw Error(
-        `Unsupported Decimal precision. Valid range: [ 1 : 18 ], got ${precision}`,
+        `Unsupported Decimal precision. Valid range: [ 1 : 76 ], got ${precision}`,
       )
     },
   }) as Decimal
@@ -479,16 +483,14 @@ export const IPv6 = {
   },
 } as IPv6
 
-// TODO: Tuple is disabled for now. Figure out type derivation in this case
-
-// export interface Tuple<T extends Type> = {
-//   type: 'Tuple'
-//   // underlying: globalThis.Array<T['underlying']>
-// }
-// export const Tuple = <T extends Type>(...inner: T[]) =>
-//   ({
-//     type: 'Tuple',
-//     toString(): string {
-//       return `Tuple(${inner.join(', ')})`
-//     },
-//   } as Tuple<T>)
+export interface Tuple<Elements extends NonEmptyArray<Type>> {
+  type: 'Tuple'
+  underlying: { [K in keyof Elements]: Elements[K]['underlying'] }
+}
+export const Tuple = <Elements extends NonEmptyArray<Type>>(...els: Elements) =>
+  ({
+    type: 'Tuple',
+    toString(): string {
+      return `Tuple(${els.join(', ')})`
+    },
+  }) as Tuple<Elements>

@@ -12,7 +12,7 @@ export function Eq<S extends Shape, F extends keyof S>(
 ): WhereExpr<S> {
   return {
     toString(): string {
-      return `(${String(field)} == ${formatValue(value)})`
+      return `(${String(field)} = ${formatValue(value)})`
     },
     type: 'Eq',
   }
